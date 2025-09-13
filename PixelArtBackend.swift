@@ -150,29 +150,6 @@ final class CloudKitManager {
         }
     }
 
-    /// Fetch a CKRecord by ID.
-    private func fetch(recordID: CKRecord.ID, from database: CKDatabase) async throws -> CKRecord {
-        try await withCheckedThrowingContinuation { continuation in
-            database.fetch(withRecordID: recordID) { record, error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                } else if let record = record {
-                    continuation.resume(returning: record)
-                } else {
-                    let notFoundError = NSError(domain: "CloudKitManager", code: 404, userInfo: [NSLocalizedDescriptionKey: "Record not found"])
-                    continuation.resume(throwing: notFoundError)
-                }
-            }
-        }
-    }
-
-    /// Write PixelArt to a temp JSON file and return its URL.
-    private func saveToTemporaryJSONFile(_ art: PixelArt) throws -> URL {
-        let data = try JSONEncoder().encode(art)
-        let tmpURL = FileManager.default.temporaryDirectory.appendingPathComponent("\(UUID().uuidString).json")
-        try data.write(to: tmpURL)
-        return tmpURL
-    }
 
     /// Convert a CKRecord to a PixelArt object.
     private static func pixelArt(from record: CKRecord) -> PixelArt? {
