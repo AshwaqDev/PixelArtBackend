@@ -1,9 +1,4 @@
-//
-//  PixelArtBackendModal.swift
-//  PicoApp1
-//
-//  Created by Ashwaq on 21/03/1447 AH.
-//
+
 
 import Foundation
 
